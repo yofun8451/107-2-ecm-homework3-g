@@ -1,0 +1,78 @@
+---
+title: "HW3"
+author: "林茂廷"
+date: "5/30/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1 Equivalence between demean and first-difference
+考慮如下的固定效果模型：
+$$y_{it}=x_{it}'\beta+c_{i}+\epsilon_{it}.$$
+使用demean估計時，我們是以下式執行OLS估計： $$y_{it}-\bar{y}_{i.}=(x_{it}-\bar{x}_{i.})'\beta+(\epsilon_{it}-\bar{\epsilon}_{i.}).$$ 
+另一種方式是使用一階差分，也就是對下式執行OLS估計：
+$$\Delta y_{it}=\Delta x_{it}'\beta+\Delta \epsilon_{it}.$$
+若資料只有t=0,1兩期，說明使用demean估計與一階差分估計會得到相同結果（可以假設x為單一變數讓證明更簡單）。
+
+## 2 廣義固定效果
+考慮以下廣義固定效果模型： 
+$$y_{it}=x_{it}'\beta+c_{i}+\delta_{t}+\epsilon_{it},$$
+定義以下平均表示符號：
+$$
+\begin{array}{lcl}
+\bar{w}_{i.}&=&\frac{\sum_{t=1}^T w_{it}}{T}\\
+\bar{w}_{.t}&=&\frac{\sum_{i=1}^N w_{it}}{N}\\
+\bar{\bar{w}}&=&\frac{\sum_i\sum_t w_{it}}{NT}
+\end{array}
+$$
+考慮如下的demean function 
+$$
+D(w_{it}|\bar{w}_{i.},\bar{w}_{.t},\bar{\bar{w}})=w_{it}-\bar{w}_{i.}-\bar{w}_{.t}+\bar{\bar{w}}
+$$
+說明對廣義固定效果模型左右式一起進行$D(.)$函數的demean轉換可以去除$c_i$及$\delta_t$兩個固定效果。
+
+## 3 Panel data的迴歸殘差
+考慮迴歸模型：
+$$
+y_{it}=\beta'x_{it}+\epsilon_{it}
+$$
+其中i代表某一家戶單位，t代表資料年份。
+
+研究者將$\epsilon_{it}$訊息拆解成
+
+  * $\alpha_i=\frac{\sum_{t=1}^T \epsilon_{it}}{T}$，及
+  
+  * $v_{it}=\epsilon_{it}-\alpha_i$為拆解後殘差。
+  
+（1）證明$\frac{\sum_{it} v_{it}\alpha_{it}}{NT}=0$。（註：當兩隨機變數w及z，其平均值為0時，$E(wz)=0$表示兩者covariance為0，即兩者無線性關連，故此題說明研究者的拆解方式會保證兩者sample covariance為0，有樣本上的零線性關連）
+
+（2）說明$E(v_{it}\alpha_i)=0$。（說理過程所使用的假設及定理都必需清楚寫下） 
+
+令$\sigma_{\alpha}^2=V(\alpha_i)$，$\sigma_{v}^2=V(v_{it})$，及$\sigma_{\alpha,v}=cov(\alpha_i,v_{it})$
+
+（3）說明$cov(\alpha_i,v_{it})=0$且推導$V(\epsilon_{it})$，及$cov(\epsilon_{it},\epsilon_{is})$當$t\neq s$。
+
+（4）由於家戶單位為隨機抽出，我們可以假設對任意的s及t，$cov(\epsilon_{it},\epsilon_{js})=0$當$i\neq j$（即任兩不同家戶的迴歸模型殘差無關）。
+
+（5）令
+$$
+\begin{array}{lcl}
+\mathbf{\epsilon} &=&
+\begin{pmatrix}
+\mathbf{\epsilon}_1 \\ \mathbf{\epsilon}_2 \\ \vdots \\ \mathbf{\epsilon}_N
+\end{pmatrix}
+\mbox{ 其中 }
+\mathbf{\epsilon}_{i}=
+\begin{pmatrix}
+\epsilon_{i1}\\ \epsilon_{i2}\\ \vdots \\ \epsilon_{iT}
+\end{pmatrix}
+\mbox{ 為第i個家戶單位的殘差向量}\\
+\Omega&=&E(\epsilon\epsilon^T)
+\end{array}
+$$
+請推導$\Omega$矩陣內容（此即為Random effect模型的殘差共變異矩陣）。推導步驟若有用到任何假設，必需清楚標明。
+
+（6）請問Fixed effect model的殘差指的是什麼？它的共變異矩陣在前述設定下會長怎麼樣？
