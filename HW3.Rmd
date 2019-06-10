@@ -1,0 +1,151 @@
+---
+title: "HW3"
+author: "林茂廷"
+date: "5/30/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1 Equivalence between demean and first-difference
+考慮如下的固定效果模型：
+$$y_{it}=x_{it}'\beta+c_{i}+\epsilon_{it}.$$
+使用demean估計時，我們是以下式執行OLS估計： $$y_{it}-\bar{y}_{i.}=(x_{it}-\bar{x}_{i.})'\beta+(\epsilon_{it}-\bar{\epsilon}_{i.}).$$ 
+另一種方式是使用一階差分，也就是對下式執行OLS估計：
+$$\Delta y_{it}=\Delta x_{it}'\beta+\Delta \epsilon_{it}.$$
+若資料只有t=0,1兩期，說明使用demean估計與一階差分估計會得到相同結果（可以假設x為單一變數讓證明更簡單）。
+
+## 2 廣義固定效果
+考慮以下廣義固定效果模型： 
+$$y_{it}=x_{it}'\beta+c_{i}+\delta_{t}+\epsilon_{it},$$
+定義以下平均表示符號：
+$$
+\begin{array}{lcl}
+\bar{w}_{i.}&=&\frac{\sum_{t=1}^T w_{it}}{T}\\
+\bar{w}_{.t}&=&\frac{\sum_{i=1}^N w_{it}}{N}\\
+\bar{\bar{w}}&=&\frac{\sum_i\sum_t w_{it}}{NT}
+\end{array}
+$$
+考慮如下的demean function 
+$$
+D(w_{it}|\bar{w}_{i.},\bar{w}_{.t},\bar{\bar{w}})=w_{it}-\bar{w}_{i.}-\bar{w}_{.t}+\bar{\bar{w}}
+$$
+說明對廣義固定效果模型左右式一起進行$D(.)$函數的demean轉換可以去除$c_i$及$\delta_t$兩個固定效果。
+
+## 3 Panel data的迴歸殘差
+考慮迴歸模型：
+$$
+y_{it}=\beta'x_{it}+\epsilon_{it}
+$$
+其中i代表某一家戶單位，t代表資料年份。
+
+研究者將$\epsilon_{it}$訊息拆解成
+
+  * $\alpha_i=\frac{\sum_{t=1}^T \epsilon_{it}}{T}$，及
+  
+  * $v_{it}=\epsilon_{it}-\alpha_i$為拆解後殘差。
+  
+（1）證明$\frac{\sum_{it} v_{it}\alpha_{it}}{NT}=0$。（註：當兩隨機變數w及z，其平均值為0時，$E(wz)=0$表示兩者covariance為0，即兩者無線性關連，故此題說明研究者的拆解方式會保證兩者sample covariance為0，有樣本上的零線性關連）
+
+（2）說明$E(v_{it}\alpha_i)=0$。（說理過程所使用的假設及定理都必需清楚寫下） 
+
+令$\sigma_{\alpha}^2=V(\alpha_i)$，$\sigma_{v}^2=V(v_{it})$，及$\sigma_{\alpha,v}=cov(\alpha_i,v_{it})$
+
+（3）說明$cov(\alpha_i,v_{it})=0$且推導$V(\epsilon_{it})$，及$cov(\epsilon_{it},\epsilon_{is})$當$t\neq s$。
+
+（4）由於家戶單位為隨機抽出，我們可以假設對任意的s及t，$cov(\epsilon_{it},\epsilon_{js})=0$當$i\neq j$（即任兩不同家戶的迴歸模型殘差無關）。
+
+（5）令
+$$
+\begin{array}{lcl}
+\mathbf{\epsilon} &=&
+\begin{pmatrix}
+\mathbf{\epsilon}_1 \\ \mathbf{\epsilon}_2 \\ \vdots \\ \mathbf{\epsilon}_N
+\end{pmatrix}
+\mbox{ 其中 }
+\mathbf{\epsilon}_{i}=
+\begin{pmatrix}
+\epsilon_{i1}\\ \epsilon_{i2}\\ \vdots \\ \epsilon_{iT}
+\end{pmatrix}
+\mbox{ 為第i個家戶單位的殘差向量}\\
+\Omega&=&E(\epsilon\epsilon^T)
+\end{array}
+$$
+請推導$\Omega$矩陣內容（此即為Random effect模型的殘差共變異矩陣）。推導步驟若有用到任何假設，必需清楚標明。
+
+（6）請問Fixed effect model的殘差指的是什麼？它的共變異矩陣在前述設定下會長怎麼樣？
+
+## 4 DiD
+考慮以下新聞：2015年8月北市3項老人福利政策施予對象以年滿65歲以上老人為主，只要持有敬老悠遊卡就可享有乘車優惠。
+
+我們想了解新政策是否增進老人行動力，$y$變數為某種行動力指標，$x$為代表「持有敬老悠遊卡就可享有乘車優惠」的效應解釋變數（若受此政策影響則為1，反之為0）。
+
+（1）假設資料均來自於2016年北市與新北市老年人抽樣，考慮如下迴歸模型：
+$$
+y_i=\beta_0+\beta^*x_i+\epsilon_i
+$$
+說明為何$\beta^*$的OLS估計不會正確。
+
+假設資料來自於2014及2016年，分別以`t=0`及`t=1`表示。另外，以`s=0`表示新北市，`s=1`表示台北市。考慮如下迴歸模型：
+$$
+y_{st,i}=\beta_0+\beta^*x_{st,i}+\epsilon_{st,i}
+$$
+（2）說明$\beta^*$的OLS估計式是在計算「2016年台北市老人平均活動力」減去「2014年台北市，及2014/2016兩年新北市老人平均活動力」
+。
+
+（3）承接上題。說明OLS估計不能代表「悠遊卡福利政策」影響。
+
+接著考慮如下迴歸模型：
+$$
+y_{st,i}=\beta_0+\alpha_1D1_s+\beta^*x_{st,i}+\epsilon_{st,i}
+$$
+其中$D1$為代表「台北市」的虛擬變數。
+
+（4）說明$\beta^*$的OLS估計式是在計算「2016年台北市老人平均活動力」減去「2014年台北市老人平均活動力」。
+。
+
+（5）承接上題。說明OLS估計不能代表「悠遊卡福利政策」影響。
+
+接著考慮如下迴歸模型：
+$$
+y_{st,i}=\beta_0+\delta_1B1_t+\beta^*x_{st,i}+\epsilon_{st,i}
+$$
+其中$B1$為代表「2016年」的虛擬變數。
+
+（6）說明$\beta^*$的OLS估計式是在計算「2016年台北市老人平均活動力」減去「2016年新北市老人平均活動力」。
+。
+
+（7）承接上題。說明OLS估計不能代表「悠遊卡福利政策」影響。
+
+前面的題目點出政策效果的研究難處在於處理「比較對象立足點差異」及「政策前後的時間差異可能代表其他非政策的影響」，為解決這問題考慮以下的迴歸模型（即DiD）：
+
+$$
+y_{st,i}=\beta_0+\alpha_1 D1_s+\delta_1 B1_t+\beta^*x_{st,i}+\epsilon_{st,i}
+$$
+
+（8）說明第6小題「2016年台北市老人平均活動力」減去「2016年新北市老人平均活動力」不只帶有政策效果$\beta^*$，還帶有兩市立足點（即沒有政策效果下）的差異$\alpha_1$。
+
+（9）說明$\beta^*$的OLS估計是第8小題的相減結果，再減去「2014年台北市減去新北市的老人平均活動力」，其中後者反應了兩市立足點的差異（即$\alpha_1$）。
+
+（10）很明顯的DiD需要假設：在「不存在福利政策下」，「2014年雙北平均差異」及「2016年雙北平均差異」要相同，即立足點差異不因時間改變。若2016年雙北老年人平均年齡差距拉大（假設北市較高），說明DiD估計會有偏誤。要如何決解？
+
+
+## 5 應用
+Run the following codes to download **fatality** data frame object
+```{r}
+load(url("https://github.com/tpemartin/github-data/blob/master/fatality.Rdata?raw=true"))
+```
+
+This is the data for the traffic motality study we discussed during the class
+
+To study the effect of Beer Tax Rate (beertax) on Vehicle Fatality Rate (mrall), we consider the following model:$mrall_{it}=beertax_{it}\beta+c_{i}+\delta_{t}+\epsilon_{it}$,where i represents the i-th state from the U.S. and t represents years. Therefore, $c_{i}$ captures the state effect and $\delta_{t}$ captures the time effect.
+
+1. Use pooled regression model for estimating $\beta$ via OLS.
+
+2. Use Fixed effects model for estimating $\beta$ via LSDV.
+
+3. Compared the results from 2 with from 1, why does the sign of $\beta$ estimate flips?
+
+4. Use Random effects model for estimating $\beta$. Is random effect model more appropriate than the pooled regression model? Is random effect model more appropriate than the fixed effect model?
