@@ -103,9 +103,160 @@ $$
 \Omega&=&E(\epsilon\epsilon^T)
 \end{array}
 $$
-請推導$\Omega$矩陣內容（此即為Random effect模型的殘差共變異矩陣）。推導步驟若有用到任何假設，必需清楚標明。
+請推導$\Omega$矩陣內容（此即為Random effect模型的殘差共變異矩陣）。推導步驟若有用到任何假設，必需清楚標明。\
+\
+令$$\epsilon= \left[
+ \begin{matrix}
+   \epsilon_1  \\
+   \epsilon_2  \\
+       .       \\
+       .       \\
+       .       \\
+    \epsilon_N
+  \end{matrix}
+  \right]
+其中\epsilon_i= \left[
+ \begin{matrix}
+   \epsilon_i1  \\
+   \epsilon_i2  \\
+       .       \\
+       .       \\
+       .       \\
+    \epsilon_iT
+  \end{matrix}
+  \right]$$
+  
+  
+  
+  
+  
+  
+  
+ $$ \Omega=E(\epsilon\epsilon^T)= \left[
+ \begin{matrix}
+   \epsilon_{i=1}\epsilon_{i=1} &\dots& &\dots& \epsilon_{i=1}\epsilon_{i=N}  \\
+   \epsilon_{i=2}\epsilon_{i=1} &\epsilon_{i=2}\epsilon_{i=2} &\dots  &\dots &\vdots\\
+      \vdots &\ddots  \\
+       \vdots  &&\ddots   &&\vdots  \\
+       \vdots   &&&\ddots    \\
+    \epsilon_iT &\dots &\dots &\dots &\epsilon_{i=N}\epsilon_{i=N}
+  \end{matrix}
+  \right]$$
+  
+  
+  
+  $$=\left[
+  \begin{matrix}
+  \Omega_1 &\dots &\dots &\dots &0 \\
+  &\Omega_2 \\
+  &&\ddots\\
+  &&&\ddots \\
+  0&&&&\Omega_N
+  \end{matrix}
+  \right]$$
+  
 
-（6）請問Fixed effect model的殘差指的是什麼？它的共變異矩陣在前述設定下會長怎麼樣？
+  
+ ,where$\Omega_1=\Omega_2=...=\Omega_N$
+ $$=\left[
+  \begin{matrix}
+  \sigma_v^2+\sigma_{\alpha}^2 &&&&\sigma_{\alpha}^2 \\
+  &\sigma_v^2+\sigma_{\alpha}^2 \\
+  &&&\ddots \\
+  \sigma_{\alpha}^2 &&&&\sigma_v^2+\sigma_{\alpha}^2
+  \end{matrix}
+  \right]$$
+
+  
+  
+  
+  
+  
+  
+  
+  $$\Omega_1=\epsilon_{i=1}\epsilon_{i=1}=\left[
+  \begin{matrix}
+  \epsilon_{i=1}\epsilon_{t=1} &&&&\epsilon_{11}\epsilon_{1T} \\
+  \epsilon_{i=1}\epsilon_{t=2} &\epsilon_{12}^2 &&&\vdots \\
+  &&&\ddots \\
+  \epsilon_{1T}\epsilon_{11} &\dots &\dots &\dots &\epsilon_{iT}^2
+  \end{matrix}
+  \right]$$
+  
+  
+  
+  
+  $$\epsilon_{it}=v_{it}+\alpha_{i}$$
+
+fixed effect model 的殘差$v_{it}$
+$$\Omega=E(vv^T)=\left[
+\begin{matrix}
+v_{i=1}v_{i=1}&....&v_{i=1}v_{i=N}
+\\.&....&.
+\\.&....&.
+\\.&....&.
+\\v_{i=N}v_{i=1}&....&v_{i=N}v_{i=N}
+\end{matrix}\right]=\left[
+\begin{matrix}
+\Omega_{1}&0&...&0
+\\0&\Omega_{2}&...&0
+\\0&0&...&\Omega_{N}
+\end{matrix}\right]$$
+
+$$\Omega_{i}=E(v_{i}v_{i})'=\left[
+\begin{matrix}
+v^2_{i1}&...&...&...&v_{i1}v_{iT}
+\\v_{i1}v_{i2}&v^2_{i2}&...&...&.
+\\.&...&...&...&.
+\\.&...&...&...&.
+\\v_{iT}v_{i1}&...&...&...&v^2_{iT}
+\end{matrix}\right]=
+\left[\begin{matrix}
+\sigma^2_v&...&0
+\\.&...&.
+\\0&...&\sigma^2_v
+\end{matrix}\right]$$
+
+$$E(v_{i2}v_{i1})=cov(v_{i2}v_{i1})+E(v_{i2})E(v_{i1})=0沒有自我相關$$
+$$E(v_{i1}v_{i1})=cov(v_{i1}v_{i1})+E(v_{i1})E(v_i1)=v(v_{1})=\sigma^2_v$$
+  \
+
+(6)請問Fixed effect model的殘差指的是什麼？它的共變異矩陣在前述設定下會長怎麼樣？\
+\
+$$\epsilon_{it}=v_{it}+\alpha_{i}$$
+
+fixed effect model 的殘差$v_{it}$
+$$\Omega=E(vv^T)=\left[
+\begin{matrix}
+v_{i=1}v_{i=1}&....&v_{i=1}v_{i=N}
+\\.&....&.
+\\.&....&.
+\\.&....&.
+\\v_{i=N}v_{i=1}&....&v_{i=N}v_{i=N}
+\end{matrix}\right]=\left[
+\begin{matrix}
+\Omega_{1}&0&...&0
+\\0&\Omega_{2}&...&0
+\\0&0&...&\Omega_{N}
+\end{matrix}\right]$$
+
+$$\Omega_{i}=E(v_{i}v_{i})'=\left[
+\begin{matrix}
+v^2_{i1}&...&...&...&v_{i1}v_{iT}
+\\v_{i1}v_{i2}&v^2_{i2}&...&...&.
+\\.&...&...&...&.
+\\.&...&...&...&.
+\\v_{iT}v_{i1}&...&...&...&v^2_{iT}
+\end{matrix}\right]=
+\left[\begin{matrix}
+\sigma^2_v&...&0
+\\.&...&.
+\\0&...&\sigma^2_v
+\end{matrix}\right]$$
+
+$$E(v_{i2}v_{i1})=cov(v_{i2}v_{i1})+E(v_{i2})E(v_{i1})=0沒有自我相關$$
+$$E(v_{i1}v_{i1})=cov(v_{i1}v_{i1})+E(v_{i1})E(v_i1)=v(v_{1})=\sigma^2_v$$
+\
 
 ## 4 DiD
 考慮以下新聞：2015年8月北市3項老人福利政策施予對象以年滿65歲以上老人為主，只要持有敬老悠遊卡就可享有乘車優惠。
@@ -118,8 +269,8 @@ y_i=\beta_0+\beta^*x_i+\epsilon_i
 $$
 說明為何$\beta^*$的OLS估計不會正確。\
 \
-$\epsilon_i$中可能還有其他變數和$x_i$有關，表示$\epsilon_i$和$x_i$不滿足條件式獨立，且$\epsilon_i$會影響到$y_i$，則此時會有選擇性偏誤問題，故$\beta^*$的OLS估計不會正確。也就是立足點可能會不同，例如台北市老人的行動力可能本來就比較高，因為台北市的老人家庭所得可能比新北市老人來的高，所以比起新北市的老人更常到處出去走走。
-
+$\epsilon_i$中可能還有其他變數和$x_i$有關，表示$\epsilon_i$和$x_i$不滿足條件式獨立，且$\epsilon_i$會影響到$y_i$，則此時會有選擇性偏誤問題，故$\beta^*$的OLS估計不會正確。也就是立足點可能會不同，例如台北市老人的行動力可能本來就比較高，因為台北市的老人家庭所得可能比新北市老人來的高，所以比起新北市的老人更常到處出去走走。\
+\
 假設資料來自於2014及2016年，分別以`t=0`及`t=1`表示。另外，以`s=0`表示新北市，`s=1`表示台北市。考慮如下迴歸模型：
 $$
 y_{st,i}=\beta_0+\beta^*x_{st,i}+\epsilon_{st,i}
@@ -134,17 +285,17 @@ $$
 所以$\beta^*$為$\bar{Y}_{台北, 2016}-\bar{Y}_{台北, 2014}$ \
 也等於$\bar{Y}_{台北, 2016}-\bar{Y}_{新北, 2014}$ \
 也等於$\bar{Y}_{台北, 2016}-\bar{Y}_{新北, 2016}$ \
-
+\
 （3）承接上題。說明OLS估計不能代表「悠遊卡福利政策」影響。\
 \
-由於無法確定是否有無其他變數和x_(st,i)有關連，且此變數有可能會影響到老人行動力，故在未滿足條件式獨立時，很有可能會有選擇性偏誤問題存在，故此OLS估計可能無法代表「悠遊卡福利政策」之影響。
-
+由於無法確定是否有無其他變數和x_(st,i)有關連，且此變數有可能會影響到老人行動力，故在未滿足條件式獨立時，很有可能會有選擇性偏誤問題存在，故此OLS估計可能無法代表「悠遊卡福利政策」之影響。\
+\
 接著考慮如下迴歸模型：
 $$
 y_{st,i}=\beta_0+\alpha_1D1_s+\beta^*x_{st,i}+\epsilon_{st,i}
 $$
 其中$D1$為代表「台北市」的虛擬變數。\
-
+\
 
 （4）說明$\beta^*$的OLS估計式是在計算「2016年台北市老人平均活動力」減去「2014年台北市老人平均活動力」。\
 \
@@ -153,18 +304,18 @@ t=2014為$x_{s,ti}=0$：實行政策前的效果 \
 2016年台北市老人平均活動力：$E(y_{st,i}|x_{st,i}=1)=\beta_0+\alpha_1 D1_s+\beta^*+E(\epsilon_{st,i}|x_{st,i})$ \
 2014年台北市老人平均活動力：$E(y_{st,i}|x_{st,i}=0)=\beta_0+\alpha_1 D1_s+E(\epsilon_{st,i}|x_{st,i})$ \
 上式兩者相減=$\beta_0+\alpha_1 D1_s+\beta^*+E(\epsilon_{st,i}|x_{st,i})-\beta_0+\alpha_1 D1_s+E(\epsilon_{st,i}|x_{st,i})=\beta^*$ \
-即可得到$\beta^*$的OLS估計式是在計算「2016年台北市老人平均活動力」減去「2014年台北市老人平均活動力」
-
+即可得到$\beta^*$的OLS估計式是在計算「2016年台北市老人平均活動力」減去「2014年台北市老人平均活動力」\
+\
 （5）承接上題。說明OLS估計不能代表「悠遊卡福利政策」影響。\
 \
-當$\epsilon_{st,i}$與$x_{st,i}$有關時，表示可能有其他變數，例如時間效果，會影響到老人行動力$y_{st,i}$，且未滿足獨立性條件，故此時的OLS估計不能代表「悠遊卡福利政策」影響。
-
+當$\epsilon_{st,i}$與$x_{st,i}$有關時，表示可能有其他變數，例如時間效果，會影響到老人行動力$y_{st,i}$，且未滿足獨立性條件，故此時的OLS估計不能代表「悠遊卡福利政策」影響。\
+\
 接著考慮如下迴歸模型：
 $$
 y_{st,i}=\beta_0+\delta_1B1_t+\beta^*x_{st,i}+\epsilon_{st,i}
 $$
 其中$B1$為代表「2016年」的虛擬變數。\
-
+\
 
 （6）說明$\beta^*$的OLS估計式是在計算「2016年台北市老人平均活動力」減去「2016年新北市老人平均活動力」。\
 \
@@ -174,8 +325,8 @@ $$
 台北市(s=1)且2014政策前(t=1):老年人平均活動力的估計值為$\hat{\beta_0}$\
 台北市(s=1)且2016政策後(t=1):老年人平均活動力的估計值為$\hat{\beta_0}+\hat{\delta_1}+\hat{\beta^*}$ \
 根據以上，$\beta^*$的估計值可以寫為$\bar{Y}_{台北, 2016}-\bar{Y}_{新北, 2014}-(\bar{Y}_{新北, 2016}-\bar{Y}_{新北, 2014})$\
-$=\bar{Y}_{台北, 2016}-\bar{Y}_{新北, 2016}$
-
+$=\bar{Y}_{台北, 2016}-\bar{Y}_{新北, 2016}$\
+\
 （7）承接上題。說明OLS估計不能代表「悠遊卡福利政策」影響。\
 \
 當$\epsilon_{st,i}$與$x_{st,i}$有關時，表示可能有其他變數，例如地區效果，會影響到老人行動力$y_{st,i}$，且未滿足獨立性條件，故此時的OLS估計不能代表「悠遊卡福利政策」影響。
@@ -185,7 +336,7 @@ $=\bar{Y}_{台北, 2016}-\bar{Y}_{新北, 2016}$
 $$
 y_{st,i}=\beta_0+\alpha_1 D1_s+\delta_1 B1_t+\beta^*x_{st,i}+\epsilon_{st,i}
 $$
-
+\
 
 （8）說明第6小題「2016年台北市老人平均活動力」減去「2016年新北市老人平均活動力」不只帶有政策效果$\beta^*$，還帶有兩市立足點（即沒有政策效果下）的差異$\alpha_1$。
 $B1=1$為代表「2016年」的虛擬變數
@@ -194,19 +345,21 @@ $D1=1$為代表「台北市」的虛擬變數；$D1=0$為代表「台北市」�
 2016年台北市老人平均活動力：$E(y_{st,i}|x_{st,i}=1,D1_{s}=1,B1_{t}=1)=\beta_0+\alpha_1+\delta_1+\beta^*+E(\epsilon_{st,i}|x_{st,i})$ \
 2016年新北市老人平均活動力：$E(y_{st,i}|x_{st,i}=0,D1_{s}=0,B1_{t}=1)=\beta_0+\delta_1+E(\epsilon_{st,i}|x_{st,i})$ \
 上面兩式相減為$\beta_0+\alpha_1+\delta_1+\beta^*+E(\epsilon_{st,i}|x_{st,i})-\beta_0+\delta_1+E(\epsilon_{st,i}|x_{st,i})$=$\alpha_1+\beta^*$ \
-即可得「2016年台北市老人平均活動力」減去「2016年新北市老人平均活動力」會有政策效果以及兩市立足點差異的效果
-
+即可得「2016年台北市老人平均活動力」減去「2016年新北市老人平均活動力」會有政策效果以及兩市立足點差異的效果\
+\
 
 （9）說明$\beta^*$的OLS估計是第8小題的相減結果，再減去「2014年台北市減去新北市的老人平均活動力」，其中後者反應了兩市立足點的差異（即$\alpha_1$）。\
 \
 2014年台北市老人平均活動力：$E(y_{st,i}|x_{st,i}=0,D1_{s}=1,B1_{t}=0)=\beta_0+\alpha_1+E(\epsilon_{st,i}|x_{st,i})$ \
 2014年新北市老人平均活動力：$E(y_{st,i}|x_{st,i}=0,D1_{s}=10,B1_{t}=0)=\beta_0+E(\epsilon_{st,i}|x_{st,i})$ \
 上面兩式相減為$\beta_0+\alpha_1+E(\epsilon_{st,i}|x_{st,i})-\beta_0+E(\epsilon_{st,i}|x_{st,i})=\alpha_1$ \
-根據第八小題的相減結果，再減去此題的結果可得：$\alpha_1+\beta^*-\alpha_1=\beta^*$
-
+根據第八小題的相減結果，再減去此題的結果可得：$\alpha_1+\beta^*-\alpha_1=\beta^*$\
+\
 
 （10）很明顯的DiD需要假設：在「不存在福利政策下」，「2014年雙北平均差異」及「2016年雙北平均差異」要相同，即立足點差異不因時間改變。若2016年雙北老年人平均年齡差距拉大（假設北市較高），說明DiD估計會有偏誤。要如何決解？\
+\
 若有DiD估計偏誤的情況，則可以再增加控制變數，以解決偏誤問題。
+
 
 ## 5 應用
 Run the following codes to download **fatality** data frame object
