@@ -3,6 +3,10 @@ title: "HW3"
 author: "林茂廷"
 date: "5/30/2019"
 output: html_document
+params:
+  name: ["黃鉦翔","林應廷","張又方","劉婷軒"]
+  id: [710761121,710761129,710761103,710761130]
+  group: "teamG"
 ---
 
 ```{r setup, include=FALSE}
@@ -17,8 +21,8 @@ $$y_{it}=x_{it}'\beta+c_{i}+\epsilon_{it}.$$
 $$\Delta y_{it}=\Delta x_{it}'\beta+\Delta \epsilon_{it}.$$
 若資料只有t=0,1兩期，說明使用demean估計與一階差分估計會得到相同結果（可以假設x為單一變數讓證明更簡單）。
 
-from 一階差分$$y_{i1}-y_{i0}=(x_{i1}-x_{i0})\beta+(\epsilon_{i1}-\epsilon_{i0})$$
-from demean $$y_{it}-\bar{y_i}=(x_{it}-\bar{x_i})\beta+(\epsilon_{it}-\bar\epsilon_i)$$
+from 一階差分$y_{i1}-y_{i0}=(x_{i1}-x_{i0})\beta+(\epsilon_{i1}-\epsilon_{i0})$
+from demean $y_{it}-\bar{y_i}=(x_{it}-\bar{x_i})\beta+(\epsilon_{it}-\bar\epsilon_i)$
 將t=0,1帶入demean後可以得到$y_{1t}-\bar{y_i}=(x_{1t}-\bar{x_i})\beta+(\epsilon_{1t}-\bar\epsilon_i)$
 及$y_{0t}-\bar{y_i}=(x_{0t}-\bar{x_i})\beta+(\epsilon_{0t}-\bar\epsilon_i)$
 相減後可得$y_{i1}-y_{i0}=(x_{i1}-x_{i0})\beta+(\epsilon_{i1}-\epsilon_{i0})$
@@ -40,7 +44,12 @@ $$
 $$
 D(w_{it}|\bar{w}_{i.},\bar{w}_{.t},\bar{\bar{w}})=w_{it}-\bar{w}_{i.}-\bar{w}_{.t}+\bar{\bar{w}}
 $$
-說明對廣義固定效果模型左右式一起進行$D(.)$函數的demean轉換可以去除$c_i$及$\delta_t$兩個固定效果。
+說明對廣義固定效果模型左右式一起進行$D(.)$函數的demean轉換可以去除$c_i$及$\delta_t$兩個固定效果。\
+$\bar{y}_{i}=\frac{\sum_{t=1}^T y_{it}}{T}=\bar{x}_{i}'\beta+c_{i}+\frac{\sum_{t=1}^T \delta_{t}}{T}+\bar\epsilon_{i}}$
+
+$$\bar{y}_{t}=\frac{\sum_{i=1}^N y_{it}}{N}=\bar{x}_{t}'\beta+\frac{\sum_{i=1}^N c_{i}}{N}+\delta_{t}+\bar\epsilon_{t}$$
+
+$$y_{it}-\bar{y}_{i}-\bar{y}_{t}+\bar{\bar{y}}=(x'_{it}\beta-\bar{x'}_{i}\beta-\bar{x'}_{t}\beta+\bar{x'}\beta)+(\epsilon_{it}-\bar\epsilon_{i}-\bar\epsilon_{t}+\bar\epsilon),所以c_{i},\delta_{t}會被消掉$$
 
 ## 3 Panel data的迴歸殘差
 考慮迴歸模型：
@@ -56,16 +65,18 @@ $$
   * $v_{it}=\epsilon_{it}-\alpha_i$為拆解後殘差。
   
 （1）證明$\frac{\sum_{it} v_{it}\alpha_{it}}{NT}=0$。（註：當兩隨機變數w及z，其平均值為0時，$E(wz)=0$表示兩者covariance為0，即兩者無線性關連，故此題說明研究者的拆解方式會保證兩者sample covariance為0，有樣本上的零線性關連）
-$$\frac{\sum_{i=1}^N\sum_{t=1}^Tv_{it}\alpha_{i}}{NT}=E(v_{it}\alpha_{i})=cov(v_{it},\alpha_i)+E(v_{it})E(\alpha_i)=0$$其中因為v_{it}與\alpha_i獨立所以
-cov()=0 且E(v_{it})=0
+$\frac{\sum_{i=1}^N\sum_{t=1}^Tv_{it}\alpha_{i}}{NT}=E(v_{it}\alpha_{i})=cov(v_{it},\alpha_i)+E(v_{it})E(\alpha_i)=0$其中因為$v_{it}$與$\alpha_i$獨立所以兩者covariance為0 且$E(v_{it})=0$
 
 
 （2）說明$E(v_{it}\alpha_i)=0$。（說理過程所使用的假設及定理都必需清楚寫下） 
-根據information decomposition v_{it}與\alpha_i獨立所以 $$E(v_{it}\alpha_{i})=cov(v_{it},\alpha_i)+E(v_{it})E(\alpha_i)=0$$其中因為v_{it}與\alpha_i獨立所以cov()=0 且E(v_{it})=0
+根據information decomposition $v_{it}$與$\alpha_{i}$獨立所以 $E(v_{it}\alpha_{i})=cov(v_{it},\alpha_i)+E(v_{it})E(\alpha_i)=0$其中因為$v_{it}$與$\alpha_{i}$獨立所以兩者covariance為0 且$E(v_{it})=0$
 
 令$\sigma_{\alpha}^2=V(\alpha_i)$，$\sigma_{v}^2=V(v_{it})$，及$\sigma_{\alpha,v}=cov(\alpha_i,v_{it})$
 
-（3）說明$cov(\alpha_i,v_{it})=0$且推導$V(\epsilon_{it})$，及$cov(\epsilon_{it},\epsilon_{is})$當$t\neq s$。
+（3）說明$cov(\alpha_i,v_{it})=0$且推導$V(\epsilon_{it})$，及$cov(\epsilon_{it},\epsilon_{is})$當$t\neq s$。\
+同上,information decomposition
+$v(\epsilon_{it})=v(v_{it}+\alpha_{i})=v(v_{it})+v(\alpha_{i})+2cov(v_{it},\alpha_{i})=\sigma^2_{v}+\sigma^2_{\alpha}$
+假設殘差間沒有自我相關,所以$\epsilon_{is}=v_{is}+\alpha_i,$也是因為information decomposition,所以$v_{is}\perp\alpha_{i}$
 
 （4）由於家戶單位為隨機抽出，我們可以假設對任意的s及t，$cov(\epsilon_{it},\epsilon_{js})=0$當$i\neq j$（即任兩不同家戶的迴歸模型殘差無關）。
 
